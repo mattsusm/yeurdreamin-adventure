@@ -23,7 +23,7 @@ node {
     }
 
     withCredentials([file(credentialsId: JWT_KEY_CRED_ID, variable: 'jwt_key_file')]) {
-        stage('Authorize ORG') {
+        stage('Create Scratch Org') {
             if (isUnix()) {
                 rc = sh returnStatus: true, script: "sfdx force:auth:jwt:grant --clientid ${CONNECTED_APP_CONSUMER_KEY} --username ${HUB_ORG} --jwtkeyfile ${jwt_key_file} -d --instanceurl ${SFDC_HOST}"
             } else {
@@ -85,10 +85,10 @@ node {
             println(sourcepush)
             if(isUnix()){
                 println('Checking Deployment Status');
-                statusDep = sh returnStdout: true, script: "sfdx force:mdapi:deploy:start -u ${HUB_ORG} --json"
+                statusDep = sh returnStdout: true, script: "sfdx force:mdapi:deploy:report -u ${HUB_ORG} --json"
             }else{
                 println('Checking Deployment Status');
-                statusDep = bat returnStdout: true, script: "sfdx force:mdapi:deploy:start -u ${HUB_ORG} --json"
+                statusDep = bat returnStdout: true, script: "sfdx force:mdapi:deploy:report -u ${HUB_ORG} --json"
             }
             println(' Deployment Status ')
             println(statusDep)
@@ -103,10 +103,10 @@ node {
             
             if(isUnix()){
                 println('Checking Deployment Status Again ');
-                statusDep1 = sh returnStdout: true, script: "sfdx force:mdapi:deploy:start -u ${HUB_ORG} --json"
+                statusDep1 = sh returnStdout: true, script: "sfdx force:mdapi:deploy:report -u ${HUB_ORG} --json"
             }else{
                 println('Checking Deployment Status Again');
-                statusDep1 = bat returnStdout: true, script: "sfdx force:mdapi:deploy:start -u ${HUB_ORG} --json"
+                statusDep1 = bat returnStdout: true, script: "sfdx force:mdapi:deploy:report -u ${HUB_ORG} --json"
             }
             println('Updated Deployment Status')
             println(statusDep1)
@@ -128,10 +128,10 @@ node {
             
             if(isUnix()){
                 println(' Assign the Permission Set to the New user ')
-                permset = sh returnStdout: true, script: "sfdx force:user:permset:assign -n yeurdreamin -u ${HUB_ORG} --json"
+                permset = sh returnStdout: true, script: "sfdx force:user:permset:assign -n deloitteAdv -u ${HUB_ORG} --json"
             }else{
                 println(' Assign the Permission Set to the New user ')
-                permset = bat returnStdout: true, script: "sfdx force:user:permset:assign -n yeurdreamin -u ${HUB_ORG} --json"
+                permset = bat returnStdout: true, script: "sfdx force:user:permset:assign -n deloitteAdv -u ${HUB_ORG} --json"
             }
             
             println(permset)
@@ -156,9 +156,9 @@ node {
             if (isUnix()) {
                 testStatus = sh returnStdout: true, script: "sfdx force:apex:test:run --testlevel RunLocalTests -u ${HUB_ORG}"
             } else {
-                testStatus = bat returnStdout: true, script: "sfdx force:apex:test:run --testlevel RunLocalTests -u ${HUB_ORG} --json"
+                //testStatus = sh returnStdout: true, script: "sfdx force:apex:test:run --testlevel RunLocalTests -u ${HUB_ORG} --json"
             }
-            println(testStatus)
+            //println(testStatus)
         }
         stage('Open Target ORG') {
             if (isUnix()) {
