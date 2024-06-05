@@ -103,10 +103,10 @@ node {
             
             if(isUnix()){
                 println('Checking Deployment Status Again ');
-                statusDep1 = sh returnStdout: true, script: "sfdx force:mdapi:deploy:report -u ${HUB_ORG} --json"
+                statusDep1 = sh returnStdout: true, script: "sfdx force:mdapi:deploy:start -u ${HUB_ORG} --json"
             }else{
                 println('Checking Deployment Status Again');
-                statusDep1 = bat returnStdout: true, script: "sfdx force:mdapi:deploy:report -u ${HUB_ORG} --json"
+                statusDep1 = bat returnStdout: true, script: "sfdx force:mdapi:deploy:start -u ${HUB_ORG} --json"
             }
             println('Updated Deployment Status')
             println(statusDep1)
