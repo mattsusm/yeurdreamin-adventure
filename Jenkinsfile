@@ -85,10 +85,10 @@ node {
             println(sourcepush)
             if(isUnix()){
                 println('Checking Deployment Status');
-                statusDep = sh returnStdout: true, script: "sfdx force:project:deploy:start -o ${HUB_ORG} --json"
+                statusDep = sh returnStdout: true, script: "sfdx force:mdapi:deploy:start -u ${HUB_ORG} --json"
             }else{
                 println('Checking Deployment Status');
-                statusDep = bat returnStdout: true, script: "sfdx force:project:deploy:start -o ${HUB_ORG} --json"
+                statusDep = bat returnStdout: true, script: "sfdx force:mdapi:deploy:start -u ${HUB_ORG} --json"
             }
             println(' Deployment Status ')
             println(statusDep)
